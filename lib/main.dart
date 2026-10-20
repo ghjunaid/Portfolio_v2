@@ -15,10 +15,14 @@ Future<void> main() async {
   // see real elements instead of Flutter's "enable accessibility" button.
   if (kIsWeb) SemanticsBinding.instance.ensureSemantics();
   // Check visibility often enough that scroll reveals feel immediate.
-  VisibilityDetectorController.instance.updateInterval =
-      const Duration(milliseconds: 100);
+  VisibilityDetectorController.instance.updateInterval = const Duration(
+    milliseconds: 100,
+  );
 
-  final (themeController, _) = await (ThemeController.load(), _preloadFonts()).wait;
+  final (themeController, _) = await (
+    ThemeController.load(),
+    _preloadFonts(),
+  ).wait;
   runApp(PortfolioApp(themeController: themeController));
 }
 
@@ -38,6 +42,7 @@ Future<void> _preloadFonts() async {
         GoogleFonts.inter(fontWeight: weight),
       GoogleFonts.spaceGrotesk(fontWeight: FontWeight.w600),
       GoogleFonts.spaceGrotesk(fontWeight: FontWeight.w700),
+      GoogleFonts.jetBrainsMono(fontWeight: FontWeight.w500),
     ]).timeout(const Duration(seconds: 4));
   } catch (_) {
     // Fall back to whatever has loaded; the layout still works.

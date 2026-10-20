@@ -4,25 +4,47 @@ import '../data/portfolio.dart';
 import '../models/models.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
+import '../widgets/glow_card.dart';
+import '../widgets/gradient_text.dart';
 import '../widgets/reveal.dart';
 import '../widgets/section.dart';
 
+/// Bento layout: a large intro card beside stat tiles and a location tile.
 class AboutSection extends StatelessWidget {
   const AboutSection({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final vibe = Vibe.of(context);
     final wide = Breakpoints.isDesktop(context);
 
-    final intro = Text(
-      about.intro,
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: theme.colorScheme.onSurfaceVariant,
+    final intro = GlowCard(
+      padding: const EdgeInsets.all(Space.xl),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ExcludeSemantics(
+            child: Text(
+              '\$ whoami',
+              style: vibe.mono.copyWith(fontSize: 14, color: vibe.accent),
+            ),
+          ),
+          const SizedBox(height: Space.md),
+          Text(profile.title, style: theme.textTheme.titleLarge),
+          const SizedBox(height: Space.md),
+          Text(
+            about.intro,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: scheme.onSurfaceVariant,
+            ),
+          ),
+        ],
       ),
     );
 
-    final stats = LayoutBuilder(
+    final tiles = LayoutBuilder(
       builder: (context, constraints) {
         final half = (constraints.maxWidth - Space.md) / 2;
         return Wrap(
@@ -31,13 +53,20 @@ class AboutSection extends StatelessWidget {
           children: [
             for (final (i, stat) in about.stats.indexed)
               Reveal(
-                delay: Duration(milliseconds: 80 * i),
+                delay: Duration(milliseconds: 90 * i),
                 child: SizedBox(
                   // Short numbers sit two per row; longer values take a row.
                   width: stat.value.length <= 4 ? half : constraints.maxWidth,
                   child: _StatTile(stat: stat),
                 ),
               ),
+            Reveal(
+              delay: Duration(milliseconds: 90 * about.stats.length),
+              child: SizedBox(
+                width: constraints.maxWidth,
+                child: const _LocationTile(),
+              ),
+            ),
           ],
         );
       },
@@ -50,16 +79,16 @@ class AboutSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(flex: 3, child: Reveal(child: intro)),
-                const SizedBox(width: Space.xxl),
-                Expanded(flex: 2, child: stats),
+                const SizedBox(width: Space.lg),
+                Expanded(flex: 2, child: tiles),
               ],
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Reveal(child: intro),
-                const SizedBox(height: Space.xl),
-                stats,
+                const SizedBox(height: Space.md),
+                tiles,
               ],
             ),
     );
@@ -74,31 +103,68 @@ class _StatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
     final short = stat.value.length <= 4;
 
-    return Container(
-      padding: const EdgeInsets.all(Space.lg),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(Radii.lg),
-        border: Border.all(color: scheme.outlineVariant),
-      ),
+    return GlowCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          GradientText(
             stat.value,
-            style: (short
-                    ? theme.textTheme.displaySmall
-                    : theme.textTheme.titleLarge)
-                ?.copyWith(color: scheme.primary),
+            style: short
+                ? theme.textTheme.displaySmall?.copyWith(fontSize: 48)
+                : theme.textTheme.titleLarge,
           ),
           const SizedBox(height: Space.xs),
           Text(
             stat.label,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: scheme.onSurfaceVariant,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LocationTile extends StatelessWidget {
+  const _LocationTile();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final vibe = Vibe.of(context);
+
+    return GlowCard(
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(
+              gradient: vibe.gradient,
+              borderRadius: BorderRadius.circular(Radii.md),
+            ),
+            child: Icon(
+              Icons.location_on_rounded,
+              color: theme.colorScheme.onPrimary,
+            ),
+          ),
+          const SizedBox(width: Space.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'based in',
+                  style: vibe.mono.copyWith(
+                    fontSize: 13,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                Text(profile.location, style: theme.textTheme.titleMedium),
+              ],
             ),
           ),
         ],

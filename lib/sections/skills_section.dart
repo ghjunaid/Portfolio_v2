@@ -3,64 +3,91 @@ import 'package:flutter/material.dart';
 import '../data/portfolio.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
+import '../widgets/equal_height_grid.dart';
+import '../widgets/glow_card.dart';
 import '../widgets/reveal.dart';
 import '../widgets/section.dart';
 import '../widgets/skill_chip.dart';
+import '../widgets/tech_marquee.dart';
 
-/// Skill groups as chip rows. The group name sits beside its chips on wide
-/// screens and above them on phones.
+/// Two logo marquees scrolling in opposite directions, then every skill
+/// group as its own card.
 class SkillsSection extends StatelessWidget {
   const SkillsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-    final sideBySide = Breakpoints.widthOf(context) >= Breakpoints.nav;
+    final width = Breakpoints.widthOf(context);
+    final columns = width < Breakpoints.tablet
+        ? 1
+        : width < Breakpoints.desktop
+        ? 2
+        : 3;
+
+    final all = [for (final g in skillGroups) ...g.skills];
+    final rowA = [for (var i = 0; i < all.length; i += 2) all[i]];
+    final rowB = [for (var i = 1; i < all.length; i += 2) all[i]];
 
     return Section(
       navId: 'skills',
       child: Column(
         children: [
-          for (final (i, group) in skillGroups.indexed)
-            Reveal(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: Space.lg),
+          Reveal(child: TechMarquee(items: rowA)),
+          const SizedBox(height: Space.sm),
+          Reveal(child: TechMarquee(items: rowB, reverse: true)),
+          const SizedBox(height: Space.xl),
+          EqualHeightGrid(
+            columns: columns,
+            itemCount: skillGroups.length,
+            itemBuilder: (context, i, _) => _GroupCard(index: i),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GroupCard extends StatelessWidget {
+  const _GroupCard({required this.index});
+
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final vibe = Vibe.of(context);
+    final group = skillGroups[index];
+
+    return GlowCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
-                  border: Border(
-                    top: i == 0
-                        ? BorderSide.none
-                        : BorderSide(color: scheme.outlineVariant),
-                  ),
+                  gradient: vibe.gradient,
+                  borderRadius: BorderRadius.circular(Radii.md),
                 ),
-                child: Flex(
-                  direction: sideBySide ? Axis.horizontal : Axis.vertical,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: sideBySide ? 220 : double.infinity,
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: sideBySide ? Space.sm : 0,
-                          bottom: sideBySide ? 0 : Space.md,
-                        ),
-                        child: Semantics(
-                          header: true,
-                          child: Text(
-                            group.name,
-                            style: theme.textTheme.titleMedium,
-                          ),
-                        ),
-                      ),
-                    ),
-                    if (sideBySide)
-                      Expanded(child: ChipWrap(labels: group.skills))
-                    else
-                      ChipWrap(labels: group.skills),
-                  ],
+                child: Icon(
+                  group.icon,
+                  size: 22,
+                  color: theme.colorScheme.onPrimary,
                 ),
               ),
-            ),
+              const SizedBox(width: Space.md),
+              Expanded(
+                child: Semantics(
+                  header: true,
+                  child: Text(group.name, style: theme.textTheme.titleMedium),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: Space.md),
+          ChipWrap(labels: group.skills),
         ],
       ),
     );

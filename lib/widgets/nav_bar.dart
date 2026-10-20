@@ -9,11 +9,12 @@ import '../utils/breakpoints.dart';
 import 'social_links.dart';
 import 'theme_toggle.dart';
 
-const double navBarHeight = 64;
+/// Space the floating nav takes at the top of the page, including margin.
+const double navBarHeight = 80;
+const double _pillHeight = 56;
 
-/// Sticky top bar. Shows section links from 768px up and a menu button
-/// (opening [NavDrawer]) below that. Gains a blurred background once the
-/// page is scrolled.
+/// Floating glass pill nav. Shows section links from 768px up and a menu
+/// button (opening [NavDrawer]) below that. Gets more solid once scrolled.
 class NavBar extends StatelessWidget {
   const NavBar({
     super.key,
@@ -28,88 +29,128 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final scheme = Theme.of(context).colorScheme;
+    final vibe = Vibe.of(context);
     final width = Breakpoints.widthOf(context);
     final wide = width >= Breakpoints.nav;
     final gutter = Breakpoints.gutter(width);
+    final radius = BorderRadius.circular(Radii.pill);
 
-    final bar = SizedBox(
-      height: navBarHeight,
-      child: Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: Breakpoints.maxContentWidth + gutter * 2,
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: gutter - Space.sm),
-            child: Row(
-              children: [
-                _Logo(onTap: () => onNavigate('home')),
-                if (!wide) const Spacer(),
-                if (wide)
-                  // Scales down only if the links can't fit at their natural
-                  // size, so the bar never overflows near the breakpoint.
-                  Expanded(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerRight,
-                      child: ValueListenableBuilder(
-                        valueListenable: activeId,
-                        builder: (context, active, _) => Row(
-                          children: [
-                            for (final item in navItems)
-                              _NavLink(
-                                label: item.label,
-                                active: item.id == active,
-                                onTap: () => onNavigate(item.id),
-                              ),
-                          ],
-                        ),
+    final content = Row(
+      children: [
+        _Logo(onTap: () => onNavigate('home')),
+        if (wide)
+          // Scales down only if the links can't fit at their natural size,
+          // so the bar never overflows near the breakpoint.
+          Expanded(
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: ValueListenableBuilder(
+                valueListenable: activeId,
+                builder: (context, active, _) => Row(
+                  children: [
+                    for (final item in navItems)
+                      _NavLink(
+                        label: item.label,
+                        active: item.id == active,
+                        onTap: () => onNavigate(item.id),
                       ),
+                  ],
+                ),
+              ),
+            ),
+          )
+        else
+          const Spacer(),
+        const ThemeToggle(),
+        if (!wide)
+          IconButton(
+            tooltip: 'Open menu',
+            icon: const Icon(Icons.menu_rounded, semanticLabel: 'Open menu'),
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+          ),
+      ],
+    );
+
+    return Semantics(
+      role: SemanticsRole.navigation,
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(gutter, 12, gutter, 0),
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 1100),
+            child: ValueListenableBuilder(
+              valueListenable: scrolled,
+              builder: (context, isScrolled, child) => AnimatedContainer(
+                duration: const Duration(milliseconds: 250),
+                height: _pillHeight,
+                decoration: BoxDecoration(
+                  borderRadius: radius,
+                  boxShadow: [
+                    if (isScrolled)
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        blurRadius: 30,
+                        offset: const Offset(0, 10),
+                      ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: radius,
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      decoration: BoxDecoration(
+                        color: isScrolled
+                            ? scheme.surface.withValues(alpha: 0.75)
+                            : vibe.glass,
+                        borderRadius: radius,
+                        border: Border.all(color: vibe.glassBorder),
+                      ),
+                      child: child,
                     ),
                   ),
-                const ThemeToggle(),
-                if (!wide)
-                  IconButton(
-                    tooltip: 'Open menu',
-                    icon: const Icon(Icons.menu, semanticLabel: 'Open menu'),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                  ),
-              ],
+                ),
+              ),
+              child: content,
             ),
           ),
         ),
       ),
     );
+  }
+}
 
-    return Semantics(
-      role: SemanticsRole.navigation,
-      child: ValueListenableBuilder(
-        valueListenable: scrolled,
-        builder: (context, isScrolled, child) => ClipRect(
-          child: BackdropFilter(
-            enabled: isScrolled,
-            filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              decoration: BoxDecoration(
-                color: isScrolled
-                    ? scheme.surface.withValues(alpha: 0.8)
-                    : scheme.surface.withValues(alpha: 0),
-                border: Border(
-                  bottom: BorderSide(
-                    color: isScrolled
-                        ? scheme.outlineVariant
-                        : Colors.transparent,
-                  ),
+/// Thin gradient bar at the very top showing how far down the page is.
+class ScrollProgressBar extends StatelessWidget {
+  const ScrollProgressBar({super.key, required this.progress});
+
+  final ValueListenable<double> progress;
+
+  @override
+  Widget build(BuildContext context) {
+    final vibe = Vibe.of(context);
+    return ExcludeSemantics(
+      child: SizedBox(
+        height: 3,
+        child: ValueListenableBuilder(
+          valueListenable: progress,
+          builder: (context, value, _) => Align(
+            alignment: Alignment.centerLeft,
+            child: FractionallySizedBox(
+              widthFactor: value.clamp(0.0, 1.0),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: vibe.gradientColors),
                 ),
+                child: const SizedBox.expand(),
               ),
-              child: child,
             ),
           ),
         ),
-        child: bar,
       ),
     );
   }
@@ -124,6 +165,7 @@ class _Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+    final vibe = Vibe.of(context);
     // Hidden between 768px and 1024px, where the nav links need the room.
     final width = Breakpoints.widthOf(context);
     final showName = width < Breakpoints.nav
@@ -137,21 +179,27 @@ class _Logo extends StatelessWidget {
       onTap: onTap,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(Radii.md),
+        borderRadius: BorderRadius.circular(Radii.pill),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 44),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Space.sm),
+            padding: const EdgeInsets.symmetric(horizontal: Space.xs + 2),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  width: 36,
-                  height: 36,
+                  width: 40,
+                  height: 40,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: scheme.primary,
-                    borderRadius: BorderRadius.circular(Radii.sm),
+                    gradient: vibe.gradient,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: vibe.accent.withValues(alpha: 0.4),
+                        blurRadius: 14,
+                      ),
+                    ],
                   ),
                   child: Text(
                     profile.initials,
@@ -163,9 +211,24 @@ class _Logo extends StatelessWidget {
                 ),
                 if (showName) ...[
                   const SizedBox(width: Space.sm + Space.xs),
-                  Text(
-                    profile.name.split(' ').first,
-                    style: theme.textTheme.titleLarge?.copyWith(fontSize: 18),
+                  Text.rich(
+                    TextSpan(
+                      style: vibe.mono.copyWith(fontSize: 16),
+                      children: [
+                        TextSpan(
+                          text: '<',
+                          style: TextStyle(color: vibe.accent),
+                        ),
+                        TextSpan(
+                          text: profile.name.split(' ').first,
+                          style: TextStyle(color: scheme.onSurface),
+                        ),
+                        TextSpan(
+                          text: ' />',
+                          style: TextStyle(color: vibe.accent),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ],
@@ -191,27 +254,23 @@ class _NavLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final vibe = Vibe.of(context);
 
     return Semantics(
       selected: active,
-      child: TextButton(
-        onPressed: onTap,
-        style: TextButton.styleFrom(
-          foregroundColor: active ? scheme.primary : scheme.onSurfaceVariant,
-          padding: const EdgeInsets.symmetric(horizontal: Space.sm + Space.xs),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(label),
-            const SizedBox(height: 2),
-            AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 2,
-              width: active ? 16 : 0,
-              color: scheme.primary,
-            ),
-          ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2),
+        child: TextButton(
+          onPressed: onTap,
+          style: TextButton.styleFrom(
+            foregroundColor: active ? scheme.primary : scheme.onSurfaceVariant,
+            backgroundColor: active
+                ? vibe.accent.withValues(alpha: 0.12)
+                : Colors.transparent,
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(horizontal: Space.md - 2),
+          ),
+          child: Text(label),
         ),
       ),
     );
@@ -234,6 +293,7 @@ class NavDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
+    final vibe = Vibe.of(context);
 
     return Drawer(
       width: 300,
@@ -246,7 +306,13 @@ class NavDrawer extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Text(profile.name, style: theme.textTheme.titleMedium),
+                    child: Text(
+                      '~/${profile.name.split(' ').first.toLowerCase()}',
+                      style: vibe.mono.copyWith(
+                        fontSize: 16,
+                        color: vibe.accent,
+                      ),
+                    ),
                   ),
                   IconButton(
                     tooltip: 'Close menu',
@@ -262,7 +328,7 @@ class NavDrawer extends StatelessWidget {
                 builder: (context, active, _) => Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    for (final item in navItems)
+                    for (final (i, item) in navItems.indexed)
                       Semantics(
                         selected: item.id == active,
                         child: ListTile(
@@ -272,7 +338,14 @@ class NavDrawer extends StatelessWidget {
                           ),
                           selected: item.id == active,
                           selectedColor: scheme.primary,
-                          selectedTileColor: scheme.primary.withValues(alpha: 0.1),
+                          selectedTileColor: vibe.accent.withValues(alpha: 0.1),
+                          leading: Text(
+                            (i + 1).toString().padLeft(2, '0'),
+                            style: vibe.mono.copyWith(
+                              fontSize: 13,
+                              color: vibe.accent,
+                            ),
+                          ),
                           title: Text(
                             item.label,
                             style: theme.textTheme.titleMedium,

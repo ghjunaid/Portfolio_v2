@@ -12,10 +12,16 @@ void main() {
     VisibilityDetectorController.instance.updateInterval = Duration.zero;
   });
 
+  // Runs with reduced motion so looping animations (background, marquee,
+  // typewriter) are off and pumpAndSettle can settle. The animated path has
+  // its own smoke test at the bottom.
   Future<ThemeController> pumpApp(WidgetTester tester, Size size) async {
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(disableAnimations: true);
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
 
     final controller = ThemeController(ThemeMode.dark);
     await tester.pumpWidget(
@@ -32,8 +38,9 @@ void main() {
     ('small desktop', const Size(1024, 768)),
     ('desktop', const Size(1440, 900)),
   ]) {
-    testWidgets('renders every section without overflow on $label',
-        (tester) async {
+    testWidgets('renders every section without overflow on $label', (
+      tester,
+    ) async {
       await pumpApp(tester, size);
 
       expect(find.text(profile.name), findsWidgets);
@@ -75,12 +82,49 @@ void main() {
     expect(find.byType(Drawer), findsNothing);
   });
 
-  testWidgets('project buttons are hidden when links are empty',
-      (tester) async {
+  testWidgets('project buttons are hidden when links are empty', (
+    tester,
+  ) async {
     await pumpApp(tester, const Size(1440, 900));
     final anyLink = projects.any(
-      (p) => p.githubUrl.isNotEmpty || p.liveUrl.isNotEmpty || p.storeUrl.isNotEmpty,
+      (p) =>
+          p.githubUrl.isNotEmpty ||
+          p.liveUrl.isNotEmpty ||
+          p.storeUrl.isNotEmpty,
     );
     expect(find.text('Code'), anyLink ? findsWidgets : findsNothing);
   });
+
+  for (final (label, size) in [
+    ('mobile', const Size(360, 800)),
+    ('desktop', const Size(1440, 900)),
+  ]) {
+    testWidgets('animated build runs, scrolls and disposes cleanly on $label', (
+      tester,
+    ) async {
+      tester.view.physicalSize = size;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        PortfolioApp(
+          themeController: ThemeController(ThemeMode.dark),
+          useGoogleFonts: false,
+        ),
+      );
+      // Let entrance animations, the typewriter and marquees run a while.
+      for (var i = 0; i < 30; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -3000));
+      for (var i = 0; i < 30; i++) {
+        await tester.pump(const Duration(milliseconds: 100));
+      }
+      expect(tester.takeException(), isNull);
+
+      // Unmounting must cancel every ticker and timer.
+      await tester.pumpWidget(const SizedBox());
+      await tester.pump(const Duration(seconds: 3));
+    });
+  }
 }

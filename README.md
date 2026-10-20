@@ -61,13 +61,14 @@ Experience(
 ),
 ```
 
-**Add a project.** Add an entry to `projects`. If you leave a link as `''`, its button stays hidden.
+**Add a project.** Add an entry to `projects`. If you leave a link as `''`, its button stays hidden. `icon` is any Material icon and appears on the card's gradient banner.
 
 ```dart
 Project(
   title: 'My New App',
   description: 'One or two lines about what it does.',
   tags: ['Flutter', 'Firebase'],
+  icon: Icons.rocket_launch_outlined,
   githubUrl: 'https://github.com/ghjunaid/my-new-app',
   liveUrl: '',
   storeUrl: 'https://play.google.com/store/apps/details?id=…',
@@ -75,6 +76,14 @@ Project(
 ```
 
 **Skills, education, certifications and contact text** are each edited in their own list or constant in the same file.
+
+**Hero extras** are set in `profile`:
+- `roles`: the lines the typewriter cycles through
+- `status`: the pulsing "Currently building at…" pill. Set it to `''` to hide it.
+- `heroBadges`: the tech names that float around the avatar on desktop
+- `greeting`: the small line above your name
+
+**Tech logos.** A skill or tag gets a logo automatically when its name matches an entry in `lib/widgets/tech_icons.dart`. To add a logo, add a line there; the icons come from the `simple_icons` package. Names without a match just show no logo.
 
 **Add a new section:**
 1. Create a widget in `lib/sections/` that uses `Section(navId: 'yourId', …)`.
@@ -110,4 +119,11 @@ web/index.html             SEO and Open Graph tags, no-JavaScript fallback, load
 
 - **Performance.** Flutter Web draws the page onto a canvas, so expect a Lighthouse Performance score of roughly 60–80. A plain HTML site would score 90+. Accessibility, Best Practices and SEO can still score high. The page's accessibility tree is always turned on, and `index.html` includes meta tags, a structured-data block and a text summary for search engines.
 - **Theme.** If the visitor has chosen a theme, the site uses it (saved in `localStorage`). Otherwise it follows the browser's `prefers-color-scheme` setting.
-- **Animations.** Scroll animations turn off when the visitor's system asks for reduced motion.
+- **Animations.** The site's effects are listed below. When the visitor's system asks for reduced motion, everything that moves on its own stops, and the logo marquee is hidden.
+  - drifting background glow and a cursor glow
+  - flowing gradient on your name
+  - typewriter line
+  - spinning avatar ring and floating tech badges
+  - logo marquee
+  - card spotlights and scroll reveals
+- **Packages.** `flutter_animate` handles the entrance, bob and pulse effects. `simple_icons` provides the tech logos.

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../data/portfolio.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
-import '../widgets/reveal.dart';
+import '../widgets/equal_height_grid.dart';
+import '../widgets/glow_card.dart';
 import '../widgets/section.dart';
 
 /// Compact cards for degrees and certifications.
@@ -17,16 +18,16 @@ class EducationSection extends StatelessWidget {
     final cards = <Widget>[
       for (final e in education)
         _InfoCard(
-          icon: Icons.school_outlined,
-          kind: 'Degree',
+          icon: Icons.school_rounded,
+          kind: 'degree',
           title: e.degree,
           subtitle: e.institution,
-          meta: '${e.start} – ${e.end}',
+          meta: '${e.start} → ${e.end}',
         ),
       for (final c in certifications)
         _InfoCard(
-          icon: Icons.workspace_premium_outlined,
-          kind: 'Certification',
+          icon: Icons.workspace_premium_rounded,
+          kind: 'certification',
           title: c.name,
           subtitle: c.issuer,
         ),
@@ -34,31 +35,11 @@ class EducationSection extends StatelessWidget {
 
     return Section(
       navId: 'education',
-      child: sideBySide
-          ? IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (final (i, card) in cards.indexed) ...[
-                    if (i > 0) const SizedBox(width: Space.lg),
-                    Expanded(
-                      child: Reveal(
-                        delay: Duration(milliseconds: 80 * i),
-                        child: card,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            )
-          : Column(
-              children: [
-                for (final (i, card) in cards.indexed) ...[
-                  if (i > 0) const SizedBox(height: Space.lg),
-                  Reveal(child: card),
-                ],
-              ],
-            ),
+      child: EqualHeightGrid(
+        columns: sideBySide ? 2 : 1,
+        itemCount: cards.length,
+        itemBuilder: (context, i, _) => cards[i],
+      ),
     );
   }
 }
@@ -83,26 +64,26 @@ class _InfoCard extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final text = theme.textTheme;
+    final vibe = Vibe.of(context);
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(Space.lg),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(Radii.lg),
-        border: Border.all(color: scheme.outlineVariant),
-      ),
+    return GlowCard(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 44,
-            height: 44,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
-              color: scheme.primaryContainer.withValues(alpha: 0.6),
+              gradient: vibe.gradient,
               borderRadius: BorderRadius.circular(Radii.md),
+              boxShadow: [
+                BoxShadow(
+                  color: vibe.accent.withValues(alpha: 0.3),
+                  blurRadius: 16,
+                ),
+              ],
             ),
-            child: Icon(icon, color: scheme.onPrimaryContainer),
+            child: Icon(icon, color: scheme.onPrimary),
           ),
           const SizedBox(width: Space.md),
           Expanded(
@@ -110,11 +91,8 @@ class _InfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  kind.toUpperCase(),
-                  style: text.labelMedium?.copyWith(
-                    color: scheme.primary,
-                    letterSpacing: 1.2,
-                  ),
+                  '// $kind',
+                  style: vibe.mono.copyWith(fontSize: 13, color: vibe.accent),
                 ),
                 const SizedBox(height: Space.xs),
                 Semantics(
@@ -132,7 +110,8 @@ class _InfoCard extends StatelessWidget {
                   const SizedBox(height: Space.xs),
                   Text(
                     meta!,
-                    style: text.labelMedium?.copyWith(
+                    style: vibe.mono.copyWith(
+                      fontSize: 13,
                       color: scheme.onSurfaceVariant,
                     ),
                   ),

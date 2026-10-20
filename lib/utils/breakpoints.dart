@@ -8,7 +8,8 @@ abstract final class Breakpoints {
   static const double desktop = 1024;
   static const double maxContentWidth = 1200;
 
-  static double widthOf(BuildContext context) => MediaQuery.sizeOf(context).width;
+  static double widthOf(BuildContext context) =>
+      MediaQuery.sizeOf(context).width;
 
   static bool isMobile(BuildContext context) => widthOf(context) < tablet;
   static bool isDesktop(BuildContext context) => widthOf(context) >= desktop;

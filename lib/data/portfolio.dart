@@ -4,12 +4,23 @@
 /// Empty strings ('') hide the related button or fall back gracefully.
 library;
 
+import 'package:flutter/material.dart' show Icons;
+
 import '../models/models.dart';
 
 const profile = Profile(
   name: 'Junaid Mohammad Shaikh',
   initials: 'JS',
+  greeting: 'Hi, I\'m',
   title: 'Software Engineer (Cross-Platform) — Flutter · Full-Stack',
+  roles: [
+    'Flutter Developer',
+    'Full-Stack Engineer',
+    'FastAPI + PostgreSQL Builder',
+    'UI/UX-Minded Engineer',
+  ],
+  status: 'Currently building at WealthNest.AI',
+  heroBadges: ['Flutter', 'FastAPI', 'PostgreSQL'],
   valueStatement:
       'I build cross-platform mobile apps and the secure, scalable APIs behind them.',
   location: 'Margao, Goa, India',
@@ -39,12 +50,16 @@ const profile = Profile(
 );
 
 const navItems = [
-  NavItem(id: 'about', label: 'About'),
-  NavItem(id: 'experience', label: 'Experience'),
-  NavItem(id: 'projects', label: 'Projects'),
-  NavItem(id: 'skills', label: 'Skills'),
-  NavItem(id: 'education', label: 'Education'),
-  NavItem(id: 'contact', label: 'Contact'),
+  NavItem(id: 'about', label: 'About', tagline: 'The short version.'),
+  NavItem(
+    id: 'experience',
+    label: 'Experience',
+    tagline: 'Where I\'ve been shipping code.',
+  ),
+  NavItem(id: 'projects', label: 'Projects', tagline: 'Things I\'ve built.'),
+  NavItem(id: 'skills', label: 'Skills', tagline: 'The tools I reach for.'),
+  NavItem(id: 'education', label: 'Education', tagline: 'Where I learned.'),
+  NavItem(id: 'contact', label: 'Contact', tagline: 'Say hello.'),
 ];
 
 const about = About(
@@ -112,6 +127,7 @@ const projects = [
         'Cross-platform fintech app for tracking and managing wealth; '
         'user-facing flows in Flutter with FastAPI services and PostgreSQL.',
     tags: ['Flutter', 'FastAPI', 'Python', 'PostgreSQL'],
+    icon: Icons.account_balance_wallet_outlined,
     storeUrl: '', // {PLAY_STORE_LINK}
     liveUrl: '', // {LIVE_LINK}
   ),
@@ -121,6 +137,7 @@ const projects = [
         'Cross-platform app with real-time chat-style features and '
         'notifications.',
     tags: ['Flutter', 'Dart', 'Laravel', 'Socket.IO', 'Firebase', 'MySQL'],
+    icon: Icons.pets_outlined,
     githubUrl: '', // {PETBA_GITHUB_LINK}
     storeUrl: '', // {PETBA_STORE_LINK}
   ),
@@ -130,6 +147,7 @@ const projects = [
         'Full-stack notes app with create, view, update, and delete via '
         'REST APIs.',
     tags: ['React.js', 'Oracle DB', 'REST API'],
+    icon: Icons.sticky_note_2_outlined,
     githubUrl: '', // {KEEP_NOTES_GITHUB_LINK}
   ),
 ];
@@ -137,10 +155,12 @@ const projects = [
 const skillGroups = [
   SkillGroup(
     name: 'Mobile & Frontend',
+    icon: Icons.phone_iphone_rounded,
     skills: ['Flutter', 'Dart', 'React.js', 'Next.js', 'Tailwind CSS'],
   ),
   SkillGroup(
     name: 'Backend & APIs',
+    icon: Icons.dns_outlined,
     skills: [
       'FastAPI',
       'Node.js',
@@ -152,14 +172,17 @@ const skillGroups = [
   ),
   SkillGroup(
     name: 'Languages',
+    icon: Icons.code_rounded,
     skills: ['Python', 'JavaScript', 'TypeScript', 'Java', 'C', 'C++', 'SQL'],
   ),
   SkillGroup(
     name: 'Databases',
+    icon: Icons.storage_rounded,
     skills: ['PostgreSQL', 'MySQL', 'MongoDB'],
   ),
   SkillGroup(
     name: 'Design',
+    icon: Icons.palette_outlined,
     skills: ['UI/UX Design', 'Graphic Design'],
   ),
 ];

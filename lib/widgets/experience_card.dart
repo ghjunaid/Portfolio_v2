@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../models/models.dart';
 import '../theme/app_theme.dart';
+import 'glow_card.dart';
+import 'pulse_dot.dart';
 import 'skill_chip.dart';
 
 /// One job: role, company, dates, bullets and tech tags. The current role
-/// gets a "Present" badge.
+/// gets a gradient border and a live "Present" badge.
 class ExperienceCard extends StatelessWidget {
   const ExperienceCard({super.key, required this.item});
 
@@ -16,24 +18,10 @@ class ExperienceCard extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final text = theme.textTheme;
+    final vibe = Vibe.of(context);
 
-    final dates = Text(
-      '${item.start} – ${item.end}',
-      style: text.labelMedium?.copyWith(color: scheme.onSurfaceVariant),
-    );
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(Space.lg),
-      decoration: BoxDecoration(
-        color: scheme.surfaceContainer,
-        borderRadius: BorderRadius.circular(Radii.lg),
-        border: Border.all(
-          color: item.current
-              ? scheme.primary.withValues(alpha: 0.5)
-              : scheme.outlineVariant,
-        ),
-      ),
+    return GlowCard(
+      highlight: item.current,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,7 +30,13 @@ class ExperienceCard extends StatelessWidget {
             runSpacing: Space.sm,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              dates,
+              Text(
+                '${item.start} → ${item.end}',
+                style: vibe.mono.copyWith(
+                  fontSize: 13,
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
               if (item.current) const _PresentBadge(),
             ],
           ),
@@ -64,14 +58,11 @@ class ExperienceCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 11, right: Space.md),
-                    child: Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        color: scheme.primary,
-                        shape: BoxShape.circle,
-                      ),
+                    padding: const EdgeInsets.only(top: 4, right: Space.md),
+                    child: Icon(
+                      Icons.chevron_right_rounded,
+                      size: 18,
+                      color: vibe.accent,
                     ),
                   ),
                   Expanded(
@@ -99,20 +90,31 @@ class _PresentBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
+    final vibe = Vibe.of(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: Space.sm, vertical: 2),
-      decoration: BoxDecoration(
-        color: scheme.primary,
-        borderRadius: BorderRadius.circular(Radii.pill),
+      padding: const EdgeInsets.symmetric(
+        horizontal: Space.sm + 2,
+        vertical: 3,
       ),
-      child: Text(
-        'Present',
-        style: theme.textTheme.labelMedium?.copyWith(
-          color: scheme.onPrimary,
-          fontWeight: FontWeight.w700,
-        ),
+      decoration: BoxDecoration(
+        color: vibe.accent.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(Radii.pill),
+        border: Border.all(color: vibe.accent.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          PulseDot(color: vibe.accent, size: 7),
+          const SizedBox(width: Space.sm),
+          Text(
+            'Present',
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: theme.colorScheme.primary,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
       ),
     );
   }

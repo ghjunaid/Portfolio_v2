@@ -16,13 +16,18 @@ class Section extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final index = navItems.indexWhere((item) => item.id == navId);
+    final item = navItems[index];
 
     return ContentContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Reveal(
-            child: SectionHeading(index: index + 1, title: navItems[index].label),
+            child: SectionHeading(
+              index: index + 1,
+              title: item.label,
+              tagline: item.tagline,
+            ),
           ),
           child,
         ],

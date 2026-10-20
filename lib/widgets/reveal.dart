@@ -6,11 +6,7 @@ import '../utils/reduced_motion.dart';
 /// Fades and slides its child in the first time it scrolls into view.
 /// Shows the child immediately when the user prefers reduced motion.
 class Reveal extends StatefulWidget {
-  const Reveal({
-    super.key,
-    required this.child,
-    this.delay = Duration.zero,
-  });
+  const Reveal({super.key, required this.child, this.delay = Duration.zero});
 
   final Widget child;
 

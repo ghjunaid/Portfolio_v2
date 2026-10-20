@@ -2,10 +2,16 @@
 /// `lib/data/portfolio.dart`, not here.
 library;
 
+import 'package:flutter/widgets.dart' show IconData;
+
 enum SocialKind { github, linkedin, email }
 
 class SocialLink {
-  const SocialLink({required this.kind, required this.label, required this.url});
+  const SocialLink({
+    required this.kind,
+    required this.label,
+    required this.url,
+  });
 
   final SocialKind kind;
   final String label;
@@ -16,7 +22,11 @@ class Profile {
   const Profile({
     required this.name,
     required this.initials,
+    required this.greeting,
     required this.title,
+    required this.roles,
+    required this.status,
+    required this.heroBadges,
     required this.valueStatement,
     required this.location,
     required this.email,
@@ -28,7 +38,19 @@ class Profile {
 
   final String name;
   final String initials;
+
+  /// Small line above the name in the hero.
+  final String greeting;
   final String title;
+
+  /// Cycled by the typewriter line in the hero.
+  final List<String> roles;
+
+  /// Shown in the pulsing pill at the top of the hero. Empty hides it.
+  final String status;
+
+  /// Tech names that float around the avatar (desktop only).
+  final List<String> heroBadges;
   final String valueStatement;
   final String location;
   final String email;
@@ -81,6 +103,7 @@ class Project {
     required this.title,
     required this.description,
     required this.tags,
+    required this.icon,
     this.githubUrl = '',
     this.liveUrl = '',
     this.storeUrl = '',
@@ -90,6 +113,9 @@ class Project {
   final String description;
   final List<String> tags;
 
+  /// Shown large on the card's gradient banner.
+  final IconData icon;
+
   /// Leave empty to hide the matching button.
   final String githubUrl;
   final String liveUrl;
@@ -97,9 +123,14 @@ class Project {
 }
 
 class SkillGroup {
-  const SkillGroup({required this.name, required this.skills});
+  const SkillGroup({
+    required this.name,
+    required this.icon,
+    required this.skills,
+  });
 
   final String name;
+  final IconData icon;
   final List<String> skills;
 }
 
@@ -132,8 +163,11 @@ class Contact {
 }
 
 class NavItem {
-  const NavItem({required this.id, required this.label});
+  const NavItem({required this.id, required this.label, this.tagline = ''});
 
   final String id;
   final String label;
+
+  /// Short line under the section heading. Empty hides it.
+  final String tagline;
 }

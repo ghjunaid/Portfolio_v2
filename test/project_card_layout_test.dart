@@ -14,16 +14,24 @@ void main() {
   });
 
   for (final width in [768.0, 1100.0, 1440.0]) {
-    testWidgets('project card content fits inside the card at $width',
-        (tester) async {
+    testWidgets('project card content fits inside the card at $width', (
+      tester,
+    ) async {
       tester.view.physicalSize = Size(width, 6000);
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
 
-      await tester.pumpWidget(PortfolioApp(
-        themeController: ThemeController(ThemeMode.dark),
-        useGoogleFonts: false,
-      ));
+      await tester.pumpWidget(
+        PortfolioApp(
+          themeController: ThemeController(ThemeMode.dark),
+          useGoogleFonts: false,
+        ),
+      );
       await tester.pumpAndSettle();
 
       for (final card in find.byType(ProjectCard).evaluate()) {
@@ -33,8 +41,11 @@ void main() {
           matching: find.byType(ChipWrap),
         );
         final chipsRect = tester.getRect(chips);
-        expect(chipsRect.bottom, lessThanOrEqualTo(cardRect.bottom - 24 + 0.5),
-            reason: 'chips overflow card at width $width');
+        expect(
+          chipsRect.bottom,
+          lessThanOrEqualTo(cardRect.bottom - 24 + 0.5),
+          reason: 'chips overflow card at width $width',
+        );
       }
     });
   }

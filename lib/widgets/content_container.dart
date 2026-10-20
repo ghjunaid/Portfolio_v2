@@ -24,8 +24,8 @@ class ContentContainer extends StatelessWidget {
     final verticalPad = !vertical
         ? 0.0
         : width < Breakpoints.tablet
-            ? Space.xxxl
-            : Space.section;
+        ? Space.xxxl
+        : Space.section;
 
     return Center(
       child: ConstrainedBox(
