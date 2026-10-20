@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!--
+    Replaced by the value of `flutter build web --base-href`. Keep "/" when
+    the site is served from the domain root (Vercel, Firebase Hosting).
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+
+  <title>Junaid Mohammad Shaikh — Software Engineer (Flutter · Full-Stack)</title>
+  <meta name="description" content="Junaid Mohammad Shaikh is a software engineer in Goa, India, building cross-platform mobile apps with Flutter and scalable backends with FastAPI, Python, and PostgreSQL.">
+  <meta name="author" content="Junaid Mohammad Shaikh">
+  <meta name="theme-color" content="#0B1117" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#F8FAFC" media="(prefers-color-scheme: light)">
+
+  <!--
+    Open Graph / Twitter. Replace {SITE_URL} with your deployed address
+    (e.g. https://junaidshaikh.vercel.app) so link previews show the image.
+  -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Junaid Mohammad Shaikh — Software Engineer">
+  <meta property="og:description" content="Cross-platform mobile apps with Flutter and scalable backends with FastAPI, Python, and PostgreSQL.">
+  <meta property="og:url" content="{SITE_URL}/">
+  <meta property="og:image" content="{SITE_URL}/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Junaid Mohammad Shaikh — Software Engineer">
+  <meta name="twitter:description" content="Cross-platform mobile apps with Flutter and scalable backends with FastAPI, Python, and PostgreSQL.">
+  <meta name="twitter:image" content="{SITE_URL}/og-image.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Junaid Mohammad Shaikh",
+    "jobTitle": "Software Engineer",
+    "address": { "@type": "PostalAddress", "addressLocality": "Margao", "addressRegion": "Goa", "addressCountry": "IN" },
+    "email": "mailto:work.junaidshaikh03@gmail.com",
+    "sameAs": ["https://github.com/ghjunaid", "https://www.linkedin.com/in/junaid-m-shaikh"]
+  }
+  </script>
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Junaid Shaikh">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Lets the browser fetch fonts early; google_fonts loads them at runtime. -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <style>
+    html, body { margin: 0; height: 100%; background: #0B1117; }
+    @media (prefers-color-scheme: light) { html, body { background: #F8FAFC; } }
+    #splash {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: #9AA7B4; transition: opacity .3s ease;
+    }
+    #splash .mark {
+      width: 64px; height: 64px; border-radius: 14px; background: #10B981;
+      color: #02140D; display: grid; place-items: center;
+      font-weight: 800; font-size: 26px;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse { 50% { transform: scale(.92); opacity: .7; } }
+    @media (prefers-reduced-motion: reduce) { #splash .mark { animation: none; } }
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip: rect(0 0 0 0); white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+  <div id="splash" role="status" aria-live="polite">
+    <div class="mark" aria-hidden="true">JS</div>
+    <span class="sr-only">Loading Junaid Mohammad Shaikh's portfolio</span>
+  </div>
+
+  <!-- Plain-text summary for crawlers and visitors without JavaScript. -->
+  <noscript>
+    <main style="max-width:720px;margin:0 auto;padding:32px 16px;font-family:system-ui,sans-serif;color:#E6EDF3">
+      <h1>Junaid Mohammad Shaikh</h1>
+      <p>Software Engineer (Cross-Platform) — Flutter · Full-Stack. Margao, Goa, India.</p>
+      <p>I build cross-platform mobile apps with Flutter and scalable backends with FastAPI, Python, and PostgreSQL. Currently Associate Software Engineer at WealthNest.AI.</p>
+      <p>
+        <a style="color:#10B981" href="mailto:work.junaidshaikh03@gmail.com">work.junaidshaikh03@gmail.com</a> ·
+        <a style="color:#10B981" href="https://github.com/ghjunaid">GitHub</a> ·
+        <a style="color:#10B981" href="https://www.linkedin.com/in/junaid-m-shaikh">LinkedIn</a>
+      </p>
+      <p>This site needs JavaScript enabled.</p>
+    </main>
+  </noscript>
+
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('splash');
+      if (!splash) return;
+      splash.style.opacity = '0';
+      setTimeout(function () { splash.remove(); }, 300);
+    });
+  </script>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
