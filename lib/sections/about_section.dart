@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../models/models.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
@@ -27,7 +27,7 @@ class AboutSection extends StatelessWidget {
         children: [
           ExcludeSemantics(
             child: Text(
-              '\$ whoami',
+              ui.whoami,
               style: vibe.mono.copyWith(fontSize: 14, color: vibe.accent),
             ),
           ),
@@ -164,7 +164,7 @@ class _LocationTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'based in',
+                  ui.basedIn,
                   style: vibe.mono.copyWith(
                     fontSize: 13,
                     color: theme.colorScheme.onSurfaceVariant,

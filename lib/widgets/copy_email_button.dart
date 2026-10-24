@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// Copies the email address to the clipboard and briefly shows "Copied!".
+import '../data/constant.dart';
+
+/// Copies the email address to the clipboard and briefly confirms it.
 class CopyEmailButton extends StatefulWidget {
   const CopyEmailButton({super.key, required this.email});
 
@@ -40,7 +42,7 @@ class _CopyEmailButtonState extends State<CopyEmailButton> {
       child: OutlinedButton.icon(
         onPressed: _copy,
         icon: Icon(_copied ? Icons.check : Icons.copy_outlined, size: 20),
-        label: Text(_copied ? 'Copied!' : 'Copy email'),
+        label: Text(_copied ? ui.copied : ui.copyEmail),
       ),
     );
   }

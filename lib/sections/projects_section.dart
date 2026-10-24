@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../utils/breakpoints.dart';
 import '../widgets/equal_height_grid.dart';
 import '../widgets/project_card.dart';

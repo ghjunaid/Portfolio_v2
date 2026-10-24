@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
 import '../utils/links.dart';
@@ -78,7 +78,7 @@ class ContactSection extends StatelessWidget {
                   alignment: WrapAlignment.center,
                   children: [
                     GradientButton(
-                      label: 'Email me',
+                      label: ui.emailMe,
                       icon: Icons.send_rounded,
                       onPressed: () => openUrl('mailto:${profile.email}'),
                     ),

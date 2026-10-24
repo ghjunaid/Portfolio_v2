@@ -3,7 +3,7 @@ import 'dart:ui' show SemanticsRole;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../sections/about_section.dart';
 import '../sections/contact_section.dart';
 import '../sections/education_section.dart';
@@ -113,7 +113,8 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             HeroSection(
                               key: _keys['home'],
-                              onViewProjects: () => _scrollTo('projects'),                            ),
+                              onViewProjects: () => _scrollTo('projects'),
+                            ),
                             AboutSection(key: _keys['about']),
                             ExperienceSection(key: _keys['experience']),
                             ProjectsSection(key: _keys['projects']),

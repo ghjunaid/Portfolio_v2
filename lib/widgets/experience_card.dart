@@ -37,7 +37,7 @@ class ExperienceCard extends StatelessWidget {
                   color: scheme.onSurfaceVariant,
                 ),
               ),
-              if (item.current) const _PresentBadge(),
+              if (item.current) _PresentBadge(label: item.end),
             ],
           ),
           const SizedBox(height: Space.sm),
@@ -84,8 +84,11 @@ class ExperienceCard extends StatelessWidget {
   }
 }
 
+/// Shows the current role's end label (e.g. "Present") with a live dot.
 class _PresentBadge extends StatelessWidget {
-  const _PresentBadge();
+  const _PresentBadge({required this.label});
+
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +111,7 @@ class _PresentBadge extends StatelessWidget {
           PulseDot(color: vibe.accent, size: 7),
           const SizedBox(width: Space.sm),
           Text(
-            'Present',
+            label,
             style: theme.textTheme.labelMedium?.copyWith(
               color: theme.colorScheme.primary,
               fontWeight: FontWeight.w700,

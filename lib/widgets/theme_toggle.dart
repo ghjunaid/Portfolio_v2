@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/constant.dart';
 import '../theme/theme_controller.dart';
 
 /// Sun/moon button that flips between light and dark mode and remembers it.
@@ -11,7 +12,7 @@ class ThemeToggle extends StatelessWidget {
     final controller = ThemeScope.of(context);
     final brightness = Theme.of(context).brightness;
     final isDark = brightness == Brightness.dark;
-    final label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+    final label = isDark ? ui.switchToLight : ui.switchToDark;
 
     return IconButton(
       tooltip: label,

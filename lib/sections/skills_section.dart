@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
+import '../widgets/content_icons.dart';
 import '../widgets/equal_height_grid.dart';
 import '../widgets/glow_card.dart';
 import '../widgets/reveal.dart';
@@ -72,7 +73,7 @@ class _GroupCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(Radii.md),
                 ),
                 child: Icon(
-                  group.icon,
+                  contentIcon(group.icon),
                   size: 22,
                   color: theme.colorScheme.onPrimary,
                 ),

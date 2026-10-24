@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import 'content_container.dart';
 import 'reveal.dart';
 import 'section_heading.dart';

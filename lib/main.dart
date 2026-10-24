@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-import 'data/portfolio.dart';
+import 'data/constant.dart';
 import 'pages/home_page.dart';
 import 'theme/app_theme.dart';
 import 'theme/theme_controller.dart';
@@ -68,7 +68,7 @@ class PortfolioApp extends StatelessWidget {
       child: ValueListenableBuilder(
         valueListenable: themeController,
         builder: (context, mode, _) => MaterialApp(
-          title: '${profile.name} — Software Engineer',
+          title: siteTitle,
           debugShowCheckedModeBanner: false,
           themeMode: mode,
           theme: AppTheme.light(useGoogleFonts: useGoogleFonts),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/constant.dart';
 import '../theme/app_theme.dart';
 import '../utils/reduced_motion.dart';
 import 'gradient_text.dart';
@@ -60,10 +61,10 @@ class _AvatarState extends State<Avatar> with TickerProviderStateMixin {
         ? Image.asset(
             widget.photo,
             fit: BoxFit.cover,
-            semanticLabel: 'Photo of ${widget.name}',
+            semanticLabel: '${ui.photoOf} ${widget.name}',
           )
         : Semantics(
-            label: '${widget.name} initials',
+            label: '${widget.name} ${ui.initialsOf}',
             child: ExcludeSemantics(
               child: Container(
                 alignment: Alignment.center,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
 import '../widgets/equal_height_grid.dart';
@@ -19,7 +19,7 @@ class EducationSection extends StatelessWidget {
       for (final e in education)
         _InfoCard(
           icon: Icons.school_rounded,
-          kind: 'degree',
+          kind: ui.degreeKind,
           title: e.degree,
           subtitle: e.institution,
           meta: e.start.isEmpty ? e.end : '${e.start} → ${e.end}',
@@ -27,12 +27,12 @@ class EducationSection extends StatelessWidget {
       for (final c in certifications)
         _InfoCard(
           icon: Icons.workspace_premium_rounded,
-          kind: 'certification',
+          kind: ui.certificationKind,
           title: c.name,
           subtitle: c.issuer,
         ),
       for (final w in workshops)
-        _InfoCard(icon: Icons.groups_rounded, kind: 'workshop', title: w),
+        _InfoCard(icon: Icons.groups_rounded, kind: ui.workshopKind, title: w),
     ];
 
     return Section(

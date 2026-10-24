@@ -10,7 +10,7 @@ class TechIcon {
   final Color? color;
 }
 
-// Keys are lower-case skill/tag names as written in lib/data/portfolio.dart.
+// Keys are lower-case skill/tag names as written in lib/data/constant.dart.
 // Anything missing here simply renders without an icon.
 const _icons = <String, TechIcon>{
   'flutter': TechIcon(SimpleIcons.flutter, SimpleIconColors.flutter),

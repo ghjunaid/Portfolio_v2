@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
 import '../utils/links.dart';
@@ -133,7 +133,7 @@ class HeroSection extends StatelessWidget {
             alignment: wide ? WrapAlignment.start : WrapAlignment.center,
             children: [
               GradientButton(
-                label: 'View Projects',
+                label: ui.viewProjects,
                 icon: Icons.arrow_downward_rounded,
                 onPressed: onViewProjects,
               ),
@@ -145,7 +145,7 @@ class HeroSection extends StatelessWidget {
                     side: BorderSide(color: vibe.glassBorder),
                   ),
                   icon: const Icon(Icons.download_rounded, size: 20),
-                  label: const Text('Download Resume'),
+                  label: Text(ui.downloadResume),
                 ),
             ],
           ),

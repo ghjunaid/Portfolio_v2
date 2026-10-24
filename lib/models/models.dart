@@ -1,8 +1,27 @@
 /// Plain data types for portfolio content. Edit values in
-/// `lib/data/portfolio.dart`, not here.
+/// `lib/data/constant.dart`, not here.
+///
+/// No Flutter imports, so `tool/sync_web.dart` can load the content as plain
+/// Dart.
 library;
 
-import 'package:flutter/widgets.dart' show IconData;
+/// Icons for project banners and skill groups. Each maps to a Material icon
+/// in `lib/widgets/content_icons.dart`.
+enum ContentIcon {
+  wallet,
+  pets,
+  voice,
+  notes,
+  text,
+  shop,
+  mobile,
+  server,
+  code,
+  database,
+  design,
+  chip,
+  tools,
+}
 
 enum SocialKind { github, linkedin, x, instagram, email }
 
@@ -114,7 +133,7 @@ class Project {
   final List<String> tags;
 
   /// Shown large on the card's gradient banner.
-  final IconData icon;
+  final ContentIcon icon;
 
   /// Leave empty to hide the matching button.
   final String githubUrl;
@@ -130,7 +149,7 @@ class SkillGroup {
   });
 
   final String name;
-  final IconData icon;
+  final ContentIcon icon;
   final List<String> skills;
 }
 
@@ -162,6 +181,69 @@ class Contact {
 
   final String heading;
   final String invitation;
+}
+
+/// Fixed labels, tooltips and decorative text used across the widgets.
+class UiText {
+  const UiText({
+    required this.viewProjects,
+    required this.downloadResume,
+    required this.emailMe,
+    required this.copyEmail,
+    required this.copied,
+    required this.codeButton,
+    required this.codeTooltip,
+    required this.liveButton,
+    required this.liveTooltip,
+    required this.storeButton,
+    required this.storeTooltip,
+    required this.whoami,
+    required this.basedIn,
+    required this.degreeKind,
+    required this.certificationKind,
+    required this.workshopKind,
+    required this.backToTop,
+    required this.openMenu,
+    required this.closeMenu,
+    required this.switchToLight,
+    required this.switchToDark,
+    required this.photoOf,
+    required this.initialsOf,
+  });
+
+  final String viewProjects;
+  final String downloadResume;
+  final String emailMe;
+  final String copyEmail;
+  final String copied;
+
+  /// Project card buttons. Tooltips follow the project title.
+  final String codeButton;
+  final String codeTooltip;
+  final String liveButton;
+  final String liveTooltip;
+  final String storeButton;
+  final String storeTooltip;
+
+  /// Code-style decoration above the About intro.
+  final String whoami;
+  final String basedIn;
+
+  /// Shown as `// <kind>` on education cards.
+  final String degreeKind;
+  final String certificationKind;
+  final String workshopKind;
+
+  final String backToTop;
+  final String openMenu;
+  final String closeMenu;
+  final String switchToLight;
+  final String switchToDark;
+
+  /// Screen-reader labels for the avatar, e.g. "Photo of Junaid" and
+  /// "Junaid initials".
+  final String photoOf;
+  final String initialsOf;
 }
 
 class NavItem {

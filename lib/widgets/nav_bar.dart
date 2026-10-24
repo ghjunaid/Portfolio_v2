@@ -3,7 +3,7 @@ import 'dart:ui' show ImageFilter, SemanticsRole;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../theme/app_theme.dart';
 import '../utils/breakpoints.dart';
 import 'social_links.dart';
@@ -64,8 +64,8 @@ class NavBar extends StatelessWidget {
         const ThemeToggle(),
         if (!wide)
           IconButton(
-            tooltip: 'Open menu',
-            icon: const Icon(Icons.menu_rounded, semanticLabel: 'Open menu'),
+            tooltip: ui.openMenu,
+            icon: Icon(Icons.menu_rounded, semanticLabel: ui.openMenu),
             onPressed: () => Scaffold.of(context).openEndDrawer(),
           ),
       ],
@@ -229,9 +229,9 @@ class NavDrawer extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    tooltip: 'Close menu',
+                    tooltip: ui.closeMenu,
                     autofocus: true,
-                    icon: const Icon(Icons.close, semanticLabel: 'Close menu'),
+                    icon: Icon(Icons.close, semanticLabel: ui.closeMenu),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],

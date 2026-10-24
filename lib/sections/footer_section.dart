@@ -2,7 +2,7 @@ import 'dart:ui' show SemanticsRole;
 
 import 'package:flutter/material.dart';
 
-import '../data/portfolio.dart';
+import '../data/constant.dart';
 import '../theme/app_theme.dart';
 import '../widgets/content_container.dart';
 
@@ -44,7 +44,7 @@ class FooterSection extends StatelessWidget {
                     Flexible(child: Text(footerCredit, style: style)),
                     const SizedBox(width: Space.sm),
                     IconButton(
-                      tooltip: 'Back to top',
+                      tooltip: ui.backToTop,
                       onPressed: onBackToTop,
                       style: IconButton.styleFrom(
                         backgroundColor: vibe.glass,
@@ -53,7 +53,7 @@ class FooterSection extends StatelessWidget {
                       icon: Icon(
                         Icons.arrow_upward_rounded,
                         color: vibe.accent,
-                        semanticLabel: 'Back to top',
+                        semanticLabel: ui.backToTop,
                       ),
                     ),
                   ],

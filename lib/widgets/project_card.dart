@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../data/constant.dart';
 import '../models/models.dart';
 import '../theme/app_theme.dart';
 import '../utils/links.dart';
+import 'content_icons.dart';
 import 'glow_card.dart';
 import 'skill_chip.dart';
 
@@ -44,22 +46,22 @@ class ProjectCard extends StatelessWidget {
     final links = <Widget>[
       if (p.githubUrl.isNotEmpty)
         _LinkButton(
-          label: 'Code',
-          tooltip: '${p.title} source code on GitHub',
+          label: ui.codeButton,
+          tooltip: '${p.title} ${ui.codeTooltip}',
           icon: const FaIcon(FontAwesomeIcons.github, size: 16),
           url: p.githubUrl,
         ),
       if (p.liveUrl.isNotEmpty)
         _LinkButton(
-          label: 'Live',
-          tooltip: '${p.title} live site',
+          label: ui.liveButton,
+          tooltip: '${p.title} ${ui.liveTooltip}',
           icon: const Icon(Icons.open_in_new, size: 18),
           url: p.liveUrl,
         ),
       if (p.storeUrl.isNotEmpty)
         _LinkButton(
-          label: 'Store',
-          tooltip: '${p.title} on the app store',
+          label: ui.storeButton,
+          tooltip: '${p.title} ${ui.storeTooltip}',
           icon: const Icon(Icons.shop_outlined, size: 18),
           url: p.storeUrl,
         ),
@@ -103,7 +105,11 @@ class ProjectCard extends StatelessWidget {
                           color: Colors.white.withValues(alpha: 0.35),
                         ),
                       ),
-                      child: Icon(p.icon, size: 36, color: Colors.white),
+                      child: Icon(
+                        contentIcon(p.icon),
+                        size: 36,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],

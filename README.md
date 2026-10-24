@@ -41,11 +41,11 @@ flutter build web --release --wasm
 firebase deploy
 ```
 
-After the first deploy, replace `{SITE_URL}` in `web/index.html` with your live address (for example `https://junaidshaikh.vercel.app`). Then rebuild and deploy again. Without this, LinkedIn and WhatsApp link previews can't show the preview image.
+After the first deploy, set `siteUrl` in `lib/data/constant.dart` to your live address (for example `https://junaidshaikh.vercel.app`), run `dart run tool/sync_web.dart`, then rebuild and deploy again. Without this, LinkedIn and WhatsApp link previews can't show the preview image.
 
 ## How to update content
 
-Edit **`lib/data/portfolio.dart`**. It is the only file that holds your text, and no widget has resume text written into it.
+Edit **`lib/data/constant.dart`**. It is the only file that holds text: content, labels and site metadata. No widget has text written into it. After changing your name, links or site metadata, run `dart run tool/sync_web.dart` to update `web/index.html` and `web/manifest.json`.
 
 **Add a job.** Put a new entry at the top of `experience`. Move `current: true` to it and remove `current: true` from the old job.
 
@@ -96,15 +96,15 @@ Project(
 | --- | --- |
 | Profile photo | Put the image in `assets/images/`, then set `profilePhoto: 'assets/images/profile.jpg'` |
 | Resume PDF | `web/Junaid_Shaikh_Resume.pdf`. Replace this file to update the resume. Set `resumeUrl: ''` to hide the button. |
-| Project links (GitHub / Live / Store) | `projects` in `lib/data/portfolio.dart` |
-| `{SITE_URL}` | `web/index.html`, used by the Open Graph and Twitter preview tags |
+| Project links (GitHub / Live / Store) | `projects` in `lib/data/constant.dart` |
+| Site address for link previews | `siteUrl` in `lib/data/constant.dart`, then run `dart run tool/sync_web.dart` |
 
 ## Project layout
 
 ```
 lib/
 ├─ main.dart               app root, font preloading, theme wiring
-├─ data/portfolio.dart     ALL content
+├─ data/constant.dart      ALL text and content
 ├─ models/models.dart      content types
 ├─ pages/home_page.dart    scroll shell, active-section tracking
 ├─ sections/               hero, about, experience, projects, skills, education, contact, footer
