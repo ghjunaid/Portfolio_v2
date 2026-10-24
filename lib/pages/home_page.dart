@@ -113,9 +113,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             HeroSection(
                               key: _keys['home'],
-                              onViewProjects: () => _scrollTo('projects'),
-                              onScrollDown: () => _scrollTo('about'),
-                            ),
+                              onViewProjects: () => _scrollTo('projects'),                            ),
                             AboutSection(key: _keys['about']),
                             ExperienceSection(key: _keys['experience']),
                             ProjectsSection(key: _keys['projects']),

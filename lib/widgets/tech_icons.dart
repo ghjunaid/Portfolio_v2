@@ -16,6 +16,11 @@ const _icons = <String, TechIcon>{
   'flutter': TechIcon(SimpleIcons.flutter, SimpleIconColors.flutter),
   'dart': TechIcon(SimpleIcons.dart, SimpleIconColors.dart),
   'react.js': TechIcon(SimpleIcons.react, SimpleIconColors.react),
+  'react native': TechIcon(SimpleIcons.react, SimpleIconColors.react),
+  'react router': TechIcon(
+    SimpleIcons.reactrouter,
+    SimpleIconColors.reactrouter,
+  ),
   'next.js': TechIcon(SimpleIcons.nextdotjs, null),
   'tailwind css': TechIcon(
     SimpleIcons.tailwindcss,
@@ -44,6 +49,21 @@ const _icons = <String, TechIcon>{
   'ui/ux': TechIcon(Icons.design_services_outlined, null),
   'ui/ux design': TechIcon(Icons.design_services_outlined, null),
   'graphic design': TechIcon(Icons.brush_outlined, null),
+  'web design': TechIcon(Icons.web_outlined, null),
+  'responsive design': TechIcon(Icons.devices_outlined, null),
+  'arduino': TechIcon(SimpleIcons.arduino, SimpleIconColors.arduino),
+  'raspberry pi': TechIcon(
+    SimpleIcons.raspberrypi,
+    SimpleIconColors.raspberrypi,
+  ),
+  'embedded c/c++': TechIcon(Icons.memory_rounded, null),
+  'tensorflow': TechIcon(SimpleIcons.tensorflow, SimpleIconColors.tensorflow),
+  'hugging face': TechIcon(
+    SimpleIcons.huggingface,
+    SimpleIconColors.huggingface,
+  ),
+  'git': TechIcon(SimpleIcons.git, SimpleIconColors.git),
+  'github': TechIcon(SimpleIcons.github, null),
 };
 
 TechIcon? techIconFor(String name) => _icons[name.toLowerCase()];

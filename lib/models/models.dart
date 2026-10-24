@@ -4,7 +4,7 @@ library;
 
 import 'package:flutter/widgets.dart' show IconData;
 
-enum SocialKind { github, linkedin, email }
+enum SocialKind { github, linkedin, x, instagram, email }
 
 class SocialLink {
   const SocialLink({
@@ -144,6 +144,8 @@ class Education {
 
   final String degree;
   final String institution;
+
+  /// Empty shows only [end], for single-year entries.
   final String start;
   final String end;
 }

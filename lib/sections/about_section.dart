@@ -47,6 +47,8 @@ class AboutSection extends StatelessWidget {
     final tiles = LayoutBuilder(
       builder: (context, constraints) {
         final half = (constraints.maxWidth - Space.md) / 2;
+        final shortCount = about.stats.where((s) => s.value.length <= 4).length;
+        var shortSeen = 0;
         return Wrap(
           spacing: Space.md,
           runSpacing: Space.md,
@@ -55,8 +57,13 @@ class AboutSection extends StatelessWidget {
               Reveal(
                 delay: Duration(milliseconds: 90 * i),
                 child: SizedBox(
-                  // Short numbers sit two per row; longer values take a row.
-                  width: stat.value.length <= 4 ? half : constraints.maxWidth,
+                  // Short numbers sit two per row; longer values take a row,
+                  // as does the last short one when it would sit alone.
+                  width:
+                      stat.value.length <= 4 &&
+                          (++shortSeen < shortCount || shortCount.isEven)
+                      ? half
+                      : constraints.maxWidth,
                   child: _StatTile(stat: stat),
                 ),
               ),

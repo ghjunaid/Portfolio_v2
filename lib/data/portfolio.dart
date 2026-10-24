@@ -27,7 +27,7 @@ const profile = Profile(
   email: 'work.junaidshaikh03@gmail.com',
   phone: '+91 93079 55609',
   // Drop a photo in assets/images/ and set e.g. 'assets/images/profile.jpg'.
-  profilePhoto: '',
+  profilePhoto: 'assets/images/profile.png',
   // Drop your PDF in web/ with this exact name (served from the site root).
   resumeUrl: 'Junaid_Shaikh_Resume.pdf',
   socials: [
@@ -40,6 +40,16 @@ const profile = Profile(
       kind: SocialKind.linkedin,
       label: 'LinkedIn',
       url: 'https://www.linkedin.com/in/junaid-m-shaikh',
+    ),
+    SocialLink(
+      kind: SocialKind.x,
+      label: 'X',
+      url: 'https://x.com/JunaidShai67970',
+    ),
+    SocialLink(
+      kind: SocialKind.instagram,
+      label: 'Instagram',
+      url: 'https://www.instagram.com/just_.junaid/',
     ),
     SocialLink(
       kind: SocialKind.email,
@@ -69,10 +79,14 @@ const about = About(
       'At WealthNest.AI I\'m developing a wealth management app in fintech, '
       'owning features end to end from design to live release. My background '
       'in web development and UI/UX design means I care about both the '
-      'interface and the system behind it.',
+      'interface and the system behind it. When I\'m not coding, I enjoy '
+      'learning about AI tools, designing graphics, playing games, dancing, '
+      'and travelling.',
   stats: [
-    Stat(value: '3', label: 'Roles'),
-    Stat(value: '3', label: 'Projects'),
+    // Jul 2024 – present across internships and full-time roles (~20 months).
+    Stat(value: '1.5+', label: 'Years of experience'),
+    Stat(value: '4', label: 'Roles'),
+    Stat(value: '6', label: 'Projects'),
     Stat(value: 'Flutter · FastAPI · PostgreSQL', label: 'Core stack'),
   ],
 );
@@ -115,8 +129,30 @@ const experience = [
     bullets: [
       'Built responsive web interfaces with HTML, CSS, JavaScript, and React.',
       'Assisted with UI/UX enhancements to improve user interaction.',
+      'Explored embedded systems development using Arduino and Raspberry Pi.',
     ],
-    tags: ['React.js', 'JavaScript', 'HTML', 'CSS', 'UI/UX'],
+    tags: [
+      'React.js',
+      'JavaScript',
+      'HTML',
+      'CSS',
+      'UI/UX',
+      'Arduino',
+      'Raspberry Pi',
+      'Embedded C/C++',
+    ],
+  ),
+  Experience(
+    role: 'Web Designing Intern',
+    company: 'Vanilla Kart',
+    start: 'Jul 2024',
+    end: 'Aug 2024',
+    bullets: [
+      'Learned modern web design principles, visual layouts, and design tools.',
+      'Gained hands-on experience building user-centric layouts with '
+          'professional styling techniques.',
+    ],
+    tags: ['Web Design', 'Layout Planning', 'Visual Design', 'HTML', 'CSS'],
   ),
 ];
 
@@ -142,13 +178,50 @@ const projects = [
     storeUrl: '', // {PETBA_STORE_LINK}
   ),
   Project(
-    title: 'Keep Notes',
+    title: 'Image-to-Speech OCR Converter',
     description:
-        'Full-stack notes app with create, view, update, and delete via '
-        'REST APIs.',
+        'Mobile app for visually impaired users that captures images, '
+        'extracts text or scene descriptions with CNN-RNN models, and reads '
+        'them aloud in real time.',
+    tags: [
+      'React Native',
+      'Tesseract OCR',
+      'TensorFlow',
+      'Hugging Face',
+      'Text-to-Speech',
+    ],
+    icon: Icons.record_voice_over_outlined,
+    githubUrl: '', // {OCR_GITHUB_LINK}
+  ),
+  Project(
+    title: 'NotesMate — Keep Notes',
+    description:
+        'Full-stack notes app for ideas, meeting minutes, and to-do lists, '
+        'with create, view, update, and delete via REST APIs.',
     tags: ['React.js', 'Oracle DB', 'REST API'],
     icon: Icons.sticky_note_2_outlined,
     githubUrl: '', // {KEEP_NOTES_GITHUB_LINK}
+    liveUrl: 'https://keep-notes-ui.vercel.app/',
+  ),
+  Project(
+    title: 'TextUtils — Text Analysis Tool',
+    description:
+        'React app for case conversion, word counting, alerts, and '
+        'light/dark theme toggling.',
+    tags: ['React.js', 'JavaScript', 'React Router', 'UI/UX'],
+    icon: Icons.text_fields_rounded,
+    githubUrl: '', // {TEXTUTILS_GITHUB_LINK}
+    liveUrl: '', // {TEXTUTILS_LIVE_LINK}
+  ),
+  Project(
+    title: 'E-Commerce Website',
+    description:
+        'Responsive online store with a mobile-first layout for the best '
+        'user experience.',
+    tags: ['HTML', 'CSS', 'JavaScript', 'Responsive Design'],
+    icon: Icons.shopping_bag_outlined,
+    githubUrl: '', // {ECOMMERCE_GITHUB_LINK}
+    liveUrl: '', // {ECOMMERCE_LIVE_LINK}
   ),
 ];
 
@@ -156,7 +229,17 @@ const skillGroups = [
   SkillGroup(
     name: 'Mobile & Frontend',
     icon: Icons.phone_iphone_rounded,
-    skills: ['Flutter', 'Dart', 'React.js', 'Next.js', 'Tailwind CSS'],
+    skills: [
+      'Flutter',
+      'Dart',
+      'React.js',
+      'React Native',
+      'Next.js',
+      'HTML',
+      'CSS',
+      'Tailwind CSS',
+      'Responsive Design',
+    ],
   ),
   SkillGroup(
     name: 'Backend & APIs',
@@ -178,12 +261,22 @@ const skillGroups = [
   SkillGroup(
     name: 'Databases',
     icon: Icons.storage_rounded,
-    skills: ['PostgreSQL', 'MySQL', 'MongoDB'],
+    skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'Oracle DB'],
   ),
   SkillGroup(
     name: 'Design',
     icon: Icons.palette_outlined,
     skills: ['UI/UX Design', 'Graphic Design'],
+  ),
+  SkillGroup(
+    name: 'Embedded',
+    icon: Icons.memory_rounded,
+    skills: ['Arduino', 'Raspberry Pi', 'Embedded C/C++'],
+  ),
+  SkillGroup(
+    name: 'Tools & Platforms',
+    icon: Icons.build_outlined,
+    skills: ['Git', 'GitHub', 'VS Code', 'Salesforce', 'Windows'],
   ),
 ];
 
@@ -194,6 +287,18 @@ const education = [
     start: 'Sept 2021',
     end: 'July 2025',
   ),
+  Education(
+    degree: 'Higher Secondary (12th) — Science',
+    institution: 'Damodar Higher Secondary School, Goa',
+    start: '2019',
+    end: '2021',
+  ),
+  Education(
+    degree: 'Secondary School (10th)',
+    institution: 'Shishu Vikas High School, Goa',
+    start: '',
+    end: '2019',
+  ),
 ];
 
 const certifications = [
@@ -203,6 +308,11 @@ const certifications = [
   ),
 ];
 
+const workshops = [
+  'Google Cloud Development Workshop',
+  'Future of High Performance and Autonomous Vehicles',
+];
+
 const contact = Contact(
   heading: 'Let\'s build something',
   invitation:
@@ -210,4 +320,4 @@ const contact = Contact(
       'full-stack projects. The quickest way to reach me is email.',
 );
 
-const footerCredit = 'Built with Flutter';
+const footerCredit = 'Designed and Developed by Junaid Mohammad Shaikh';

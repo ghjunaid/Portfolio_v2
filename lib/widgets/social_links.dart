@@ -7,10 +7,12 @@ import '../utils/links.dart';
 FaIconData socialIcon(SocialKind kind) => switch (kind) {
   SocialKind.github => FontAwesomeIcons.github,
   SocialKind.linkedin => FontAwesomeIcons.linkedinIn,
+  SocialKind.x => FontAwesomeIcons.xTwitter,
+  SocialKind.instagram => FontAwesomeIcons.instagram,
   SocialKind.email => FontAwesomeIcons.envelope,
 };
 
-/// Row of icon buttons for GitHub, LinkedIn and email.
+/// Row of icon buttons for GitHub, LinkedIn, X, Instagram and email.
 class SocialLinks extends StatelessWidget {
   const SocialLinks({super.key, required this.links});
 

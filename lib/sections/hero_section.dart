@@ -17,14 +17,9 @@ import '../widgets/tech_icons.dart';
 import '../widgets/typewriter.dart';
 
 class HeroSection extends StatelessWidget {
-  const HeroSection({
-    super.key,
-    required this.onViewProjects,
-    required this.onScrollDown,
-  });
+  const HeroSection({super.key, required this.onViewProjects});
 
   final VoidCallback onViewProjects;
-  final VoidCallback onScrollDown;
 
   @override
   Widget build(BuildContext context) {
@@ -218,10 +213,6 @@ class HeroSection extends StatelessWidget {
                           intro,
                         ],
                       ),
-                if (wide) ...[
-                  const SizedBox(height: Space.xxl),
-                  _ScrollCue(onTap: onScrollDown),
-                ],
               ],
             ),
           ),
@@ -362,55 +353,6 @@ class _TechBadge extends StatelessWidget {
             style: vibe.mono.copyWith(fontSize: 14, color: scheme.onSurface),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _ScrollCue extends StatelessWidget {
-  const _ScrollCue({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final vibe = Vibe.of(context);
-    final arrow = Icon(
-      Icons.keyboard_double_arrow_down_rounded,
-      color: vibe.accent,
-    );
-
-    return Tooltip(
-      message: 'Scroll to About',
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(Radii.pill),
-        child: Padding(
-          padding: const EdgeInsets.all(Space.sm),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'scroll',
-                style: vibe.mono.copyWith(
-                  fontSize: 12,
-                  color: scheme.onSurfaceVariant,
-                ),
-              ),
-              prefersReducedMotion(context)
-                  ? arrow
-                  : arrow
-                        .animate(onPlay: (c) => c.repeat(reverse: true))
-                        .moveY(
-                          begin: 0,
-                          end: 6,
-                          duration: 900.ms,
-                          curve: Curves.easeInOut,
-                        ),
-            ],
-          ),
-        ),
       ),
     );
   }

@@ -86,13 +86,13 @@ void main() {
     tester,
   ) async {
     await pumpApp(tester, const Size(1440, 900));
-    final anyLink = projects.any(
-      (p) =>
-          p.githubUrl.isNotEmpty ||
-          p.liveUrl.isNotEmpty ||
-          p.storeUrl.isNotEmpty,
-    );
-    expect(find.text('Code'), anyLink ? findsWidgets : findsNothing);
+    for (final (label, hasLink) in [
+      ('Code', projects.any((p) => p.githubUrl.isNotEmpty)),
+      ('Live', projects.any((p) => p.liveUrl.isNotEmpty)),
+      ('Store', projects.any((p) => p.storeUrl.isNotEmpty)),
+    ]) {
+      expect(find.text(label), hasLink ? findsWidgets : findsNothing);
+    }
   });
 
   for (final (label, size) in [

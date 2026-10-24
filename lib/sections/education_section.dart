@@ -7,7 +7,7 @@ import '../widgets/equal_height_grid.dart';
 import '../widgets/glow_card.dart';
 import '../widgets/section.dart';
 
-/// Compact cards for degrees and certifications.
+/// Compact cards for degrees, certifications and workshops.
 class EducationSection extends StatelessWidget {
   const EducationSection({super.key});
 
@@ -22,7 +22,7 @@ class EducationSection extends StatelessWidget {
           kind: 'degree',
           title: e.degree,
           subtitle: e.institution,
-          meta: '${e.start} → ${e.end}',
+          meta: e.start.isEmpty ? e.end : '${e.start} → ${e.end}',
         ),
       for (final c in certifications)
         _InfoCard(
@@ -31,6 +31,8 @@ class EducationSection extends StatelessWidget {
           title: c.name,
           subtitle: c.issuer,
         ),
+      for (final w in workshops)
+        _InfoCard(icon: Icons.groups_rounded, kind: 'workshop', title: w),
     ];
 
     return Section(
@@ -49,14 +51,14 @@ class _InfoCard extends StatelessWidget {
     required this.icon,
     required this.kind,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     this.meta,
   });
 
   final IconData icon;
   final String kind;
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final String? meta;
 
   @override
@@ -99,13 +101,15 @@ class _InfoCard extends StatelessWidget {
                   header: true,
                   child: Text(title, style: text.titleMedium),
                 ),
-                const SizedBox(height: Space.xs),
-                Text(
-                  subtitle,
-                  style: text.bodyMedium?.copyWith(
-                    color: scheme.onSurfaceVariant,
+                if (subtitle != null) ...[
+                  const SizedBox(height: Space.xs),
+                  Text(
+                    subtitle!,
+                    style: text.bodyMedium?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
-                ),
+                ],
                 if (meta != null) ...[
                   const SizedBox(height: Space.xs),
                   Text(

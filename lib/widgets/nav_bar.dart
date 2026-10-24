@@ -36,16 +36,16 @@ class NavBar extends StatelessWidget {
     final gutter = Breakpoints.gutter(width);
     final radius = BorderRadius.circular(Radii.pill);
 
+    // The pill hugs its contents and sits centred on the page.
     final content = Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        _Logo(onTap: () => onNavigate('home')),
         if (wide)
           // Scales down only if the links can't fit at their natural size,
           // so the bar never overflows near the breakpoint.
-          Expanded(
+          Flexible(
             child: FittedBox(
               fit: BoxFit.scaleDown,
-              alignment: Alignment.centerRight,
               child: ValueListenableBuilder(
                 valueListenable: activeId,
                 builder: (context, active, _) => Row(
@@ -60,9 +60,7 @@ class NavBar extends StatelessWidget {
                 ),
               ),
             ),
-          )
-        else
-          const Spacer(),
+          ),
         const ThemeToggle(),
         if (!wide)
           IconButton(
@@ -148,90 +146,6 @@ class ScrollProgressBar extends StatelessWidget {
                 ),
                 child: const SizedBox.expand(),
               ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _Logo extends StatelessWidget {
-  const _Logo({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
-    final vibe = Vibe.of(context);
-    // Hidden between 768px and 1024px, where the nav links need the room.
-    final width = Breakpoints.widthOf(context);
-    final showName = width < Breakpoints.nav
-        ? width >= 420
-        : width >= Breakpoints.desktop;
-
-    return Semantics(
-      label: '${profile.name}, back to top',
-      button: true,
-      excludeSemantics: true,
-      onTap: onTap,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(Radii.pill),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 44),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Space.xs + 2),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    gradient: vibe.gradient,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: vibe.accent.withValues(alpha: 0.4),
-                        blurRadius: 14,
-                      ),
-                    ],
-                  ),
-                  child: Text(
-                    profile.initials,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: scheme.onPrimary,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                if (showName) ...[
-                  const SizedBox(width: Space.sm + Space.xs),
-                  Text.rich(
-                    TextSpan(
-                      style: vibe.mono.copyWith(fontSize: 16),
-                      children: [
-                        TextSpan(
-                          text: '<',
-                          style: TextStyle(color: vibe.accent),
-                        ),
-                        TextSpan(
-                          text: profile.name.split(' ').first,
-                          style: TextStyle(color: scheme.onSurface),
-                        ),
-                        TextSpan(
-                          text: ' />',
-                          style: TextStyle(color: vibe.accent),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ],
             ),
           ),
         ),

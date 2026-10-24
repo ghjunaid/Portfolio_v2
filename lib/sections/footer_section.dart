@@ -41,7 +41,7 @@ class FooterSection extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(footerCredit, style: style),
+                    Flexible(child: Text(footerCredit, style: style)),
                     const SizedBox(width: Space.sm),
                     IconButton(
                       tooltip: 'Back to top',
